@@ -1,13 +1,13 @@
 package facepamphlet;
-/* 
+
+import java.awt.event.*;
+
+/** 
  * File: FacePamphlet.java
  * -----------------------
  * When it is finished, this program will implement a basic social network
  * management system.
  */
-
-import java.awt.event.*;
-
 public class FacePamphlet {
 
 	/**

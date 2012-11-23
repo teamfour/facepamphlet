@@ -1,6 +1,10 @@
 package facepamphlet;
 
-/*
+import java.util.*;
+
+import acm.graphics.GImage;
+
+/**
  * File: FacePamphletProfile.java
  * ------------------------------
  * This class keeps track of all the information for one profile
@@ -9,18 +13,18 @@ package facepamphlet;
  * the person is currently doing, which may not always be set),
  * and a list of friends.
  */
-
-import java.util.*;
-
-import acm.graphics.GImage;
-
 public class FacePamphletProfile {
 	private GImage image;
 	private String bio;
 	private String status;
-	private final String name;
+	private Date birthday;
+	
+	private final String name; // Can't change (for consistency)
+	
 	private HashMap<String, String> friendCategories;
 	private ArrayList<String> friends;
+	
+	private ArrayList<String> subProfiles;
 	
 	/** 
 	 * Constructor
@@ -30,6 +34,8 @@ public class FacePamphletProfile {
 	public FacePamphletProfile(String name) {
 		 friendCategories = new HashMap<String, String>();
 		 friends = new ArrayList<String>();
+		 subProfiles = new ArrayList<String>();
+		 
 		 this.name = name;
 	}
 
@@ -120,6 +126,20 @@ public class FacePamphletProfile {
 	}
 	
 	/** 
+	 * This method returns the bio associated with the profile.
+	 * If there is no bio associated with the profile, the method
+	 * returns null.
+	 */
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	/** This method sets the birthday associated with the profile. */ 
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	/** 
 	 * This method adds the named friend to this profile's list of 
 	 * friends.  It returns true if the friend's name was not already
 	 * in the list of friends for this profile (and the name is added 
@@ -161,6 +181,46 @@ public class FacePamphletProfile {
 	}
 	
 	/** 
+	 * This method adds the named sub-profile to this profile's list of 
+	 * sub-profiles.  It returns true if the name was not already
+	 * in the list for this profile (and the name is added 
+	 * to the list).  The method returns false if the given name
+	 * was already in the list of sub-profiles for this profile (in which 
+	 * case, the given name is not added to the list a second time.)
+	 */
+	public boolean addSubProfile(String subProfileName) {
+		if(!subProfiles.contains(subProfileName)) {
+			subProfiles.add(subProfileName);
+			return true;
+		}
+		return false;
+	}
+
+	/** 
+	 * This method removes the named sub-profile from this profile's list
+	 * of sub-profiles.  It returns true if the name was in the 
+	 * list for this profile (and the name was removed from
+	 * the list).  The method returns false if the given name 
+	 * was not in the list of sub-profiles for this profile (in which case,
+	 * the given name could not be removed.)
+	 */
+	public boolean removeSubProfile(String subProfileName) {
+		if(subProfiles.remove(subProfileName) != false) {
+			friendCategories.remove(subProfileName);
+			return true;
+		}
+		return false;
+	}
+	
+	/** 
+	 * This method returns an iterator over the list of sub-profiles 
+	 * associated with the profile.
+	 */ 
+	public Iterator<String> getSubProfiles() {
+		return subProfiles.iterator();
+	}
+	
+	/** 
 	 * This method returns a string representation of the profile.  
 	 * This string is of the form: "name (status): list of friends", 
 	 * where name and status are set accordingly and the list of 
@@ -176,7 +236,15 @@ public class FacePamphletProfile {
 		
 		toString += " (" + getStatus();
 		
-		toString += ", " + getBio() +"): ";
+		toString += ", " + getBio() +", sub accounts: ";
+		
+		for(int i = 0; i < subProfiles.size(); i++) {
+			String subProfile = subProfiles.get(i);
+			toString += subProfile;
+			toString += i == friends.size() - 1 ? "" : ", ";
+		}
+				
+		toString += "): ";
 		
 		for(int i = 0; i < friends.size(); i++) {
 			String friend = friends.get(i);

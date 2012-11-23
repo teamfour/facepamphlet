@@ -1,14 +1,14 @@
 package facepamphlet;
-/*
+
+import java.util.*;
+
+/**
  * File: FacePamphletDatabase.java
  * -------------------------------
  * This class keeps track of the profiles of all users in the
  * FacePamphlet application.  Note that profile names are case
  * sensitive, so that "ALICE" and "alice" are NOT the same name.
  */
-
-import java.util.*;
-
 public class FacePamphletDatabase {
 
 	private ArrayList<FacePamphletProfile> profiles;

@@ -4,6 +4,10 @@ import java.util.Iterator;
 
 import facepamphlet.FacePamphletProfile;
 
+/**
+ * This tests the categorization of friends. Note that this is done on a name 
+ * basis, so we don't need a profile of actual profiles, we assume they exist somewhere.
+ */
 public class Categorizing {
 	public static void main(String[] args) {
 		FacePamphletProfile me = new FacePamphletProfile("Me");
@@ -41,5 +45,8 @@ public class Categorizing {
 				System.out.println(" "+f.next());
 			}
 		}
+		
+		System.out.println();
+		System.out.println(me.toString());
 	}
 }
