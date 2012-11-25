@@ -2,13 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import acmx.export.java.util.Iterator;
 
 import facepamphlet.FacePamphletProfile;
 

@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 /**
  * This ensures that we can set and get a profile's bio.
+ * @author Christian Fiddick
  */
 public class Bio {
 	@Test

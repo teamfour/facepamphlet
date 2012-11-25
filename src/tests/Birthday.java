@@ -1,8 +1,6 @@
 package tests;
 
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.Random;
 
 import facepamphlet.FacePamphletDatabase;
 import facepamphlet.FacePamphletProfile;
@@ -11,44 +9,28 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 /**
  * This just ensures that we can set birthdays and get them.
+ * @author Christian Fiddick
  */
 public class Birthday {
 	@Test
 	public void birthdayTest() {
-		Random r = new Random();
-		Calendar c = Calendar.getInstance();		
-		
-		FacePamphletDatabase people = new FacePamphletDatabase();
+		Calendar c = Calendar.getInstance();
 		
 		FacePamphletProfile me = new FacePamphletProfile("Me");
+		FacePamphletProfile friend = new FacePamphletProfile("Friend");
 
-		c.set(Calendar.DAY_OF_YEAR, r.nextInt(365));
-		me.setBirthday(c.getTime());
-		
+		FacePamphletDatabase people = new FacePamphletDatabase();
 		people.addProfile(me);
+		people.addProfile(friend);
 		
-		for(int i = 0; i < 10; i++) {
-			FacePamphletProfile friend = new FacePamphletProfile("friend"+i);
-			
-			c = Calendar.getInstance();
-			c.set(Calendar.DAY_OF_YEAR, r.nextInt(365));
-			
-			friend.setBirthday(c.getTime());
-			
-			me.addFriend(friend.getName());
-			
-			people.addProfile(friend);
-		}
-		
-		System.out.println("My birthday: "+me.getBirthday());
-		
-		System.out.println();
-		
-		System.out.println("Friend birthdays: ");
-		for(Iterator<String> f = me.getFriends(); f.hasNext(); ) {
-			String friend = f.next();
-			
-			System.out.println(friend+": "+people.getProfile(friend).getBirthday());
-		}
+		me.addFriend(friend.getName());
+				
+		me.setBirthday(c.getTime());
+		friend.setBirthday(c.getTime());
+
+		assertEquals(me.getBirthday(), c.getTime());
+				
+		// this is how we would get a friend's birthday
+		assertEquals(friend.getBirthday(), people.getProfile(me.getFriends().next()).getBirthday());
 	}
 }

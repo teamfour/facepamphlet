@@ -1,5 +1,6 @@
 package tests;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import facepamphlet.FacePamphletProfile;
@@ -7,49 +8,39 @@ import facepamphlet.FacePamphletProfile;
 import static org.junit.Assert.*;
 import org.junit.Test;
 /**
- * This tests the categorization of friends. Note that this is done on a name 
- * basis, so we don't need a profile of actual profiles, we assume they exist somewhere.
+ * This tests the categorization of friends.
+ * @author Christian Fiddick
  */
 public class Categorizing {
 	@Test
-	public void CategorizingTest() {
+	public void categorizingTest() {
 		FacePamphletProfile me = new FacePamphletProfile("Me");
 		
-		// we are just gonna name friends with numbers and categories with letters
-		// for convenience
+		FacePamphletProfile friend1 = new FacePamphletProfile("Friend1");
+		FacePamphletProfile friend2 = new FacePamphletProfile("Friend2");
+
+		me.addFriend(friend1.getName());
+		me.addFriend(friend2.getName());
+				
+		me.setCategory(friend1.getName(), "Male");
+
+		assertEquals(me.getCategories(friend1.getName()).next(), "Male");
 		
-		char category = 'a';
-		for(int friend = 0; friend < 15; friend++) {
-			me.addFriend(""+friend);
-			me.setCategory(""+friend, ""+category);
-			if(friend % 3 == 0) {
-				category++;
-			}
+		me.setCategory(friend2.getName(), "Female");
+		me.setCategory(friend2.getName(), "Family");
+		
+		ArrayList<String> friend2Categories = new ArrayList<String>();
+		for(Iterator<String> i = me.getCategories(friend2.getName()); i.hasNext(); ) {
+			friend2Categories.add(i.next());
 		}
 		
-		System.out.println();
-		System.out.println("Checking individual categories: ");
-		for(int friend = 0; friend < 15; friend++) {
-			System.out.println(friend+" ("+me.getCategory(""+friend)+")");
-		}
+		assertEquals(friend2Categories.get(0), "Female");
+		assertEquals(friend2Categories.get(1), "Family");
+
+		me.setCategory(friend1.getName(), null);
 		
-		System.out.println();
-		System.out.println("All categories: ");
-		for(Iterator<String> c = me.getCategories(); c.hasNext(); ) {
-			System.out.println(c.next());
-		}
+		assertEquals(me.getCategories(friend1.getName()), null);
 		
-		System.out.println();
-		System.out.println("Friends grouped by categories: ");
-		for(Iterator<String> c = me.getCategories(); c.hasNext(); ) {
-			String cat = c.next();
-			System.out.println(cat+": ");
-			for(Iterator<String> f = me.getFriends(cat); f.hasNext(); ) {
-				System.out.println(" "+f.next());
-			}
-		}
-		
-		System.out.println();
-		System.out.println(me.toString());
+		assertEquals(me.getFriends("Family").next(), friend2.getName());
 	}
 }

@@ -9,10 +9,11 @@ import org.junit.Test;
 /**
  * This tests the sub-profile functionality of a profile. This is very simple
  * since all we need to test is the association of the profiles.
+ * @author Christian Fiddick
  */
 public class SubProfile {
 	@Test
-	public void SubProfileTest() {		
+	public void subProfileTest() {		
 		FacePamphletDatabase people = new FacePamphletDatabase();
 		
 		FacePamphletProfile me = new FacePamphletProfile("Me");
@@ -22,6 +23,9 @@ public class SubProfile {
 		people.addProfile(myCat);
 		
 		me.addSubProfile("Cat");
+		
+		assertEquals(me.getSubProfiles().next(), "Cat");
+		assertEquals(myCat.getParentProfile(), "Me");
 		
 		System.out.println(me.toString());
 		System.out.println(myCat.toString());
