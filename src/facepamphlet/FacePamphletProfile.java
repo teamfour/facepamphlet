@@ -26,14 +26,18 @@ public class FacePamphletProfile {
 	
 	private ArrayList<String> subProfiles;
 	
-	private Map<String,ArrayList<String>> publicMessages;
+	private HashMap<String,ArrayList<String>> publicMessages;
 	
-	private Map<String,ArrayList<String>> privateMessages;
+	private HashMap<String,ArrayList<String>> privateMessages;
+	
+	private ArrayList<String> notifications;
 	
 	/** 
 	 * Constructor
 	 * This method takes care of any initialization needed for
 	 * the profile.
+	 * @param name The name of this user
+	 * @author Christian Fiddick, Cameron Ross
 	 */
 	public FacePamphletProfile(String name) {
 		 friendCategories = new HashMap<String, String>();
@@ -42,6 +46,7 @@ public class FacePamphletProfile {
 		 
 		 privateMessages = new HashMap<String,ArrayList<String>>();
 		 publicMessages = new HashMap<String,ArrayList<String>>();
+		 notifications = new ArrayList<String>();
 		 
 		 this.name = name;
 	}
@@ -271,6 +276,7 @@ public class FacePamphletProfile {
 	public void receivePrivateMessage(String from, String message) {
 		if (privateMessages.get(from) == null)
 			privateMessages.put(from, new ArrayList<String>());
+		addNotification("You have a new private message!");
 		privateMessages.get(from).add(message);
 	}
 	/**
@@ -282,6 +288,7 @@ public class FacePamphletProfile {
 	public void receivePublicMessage(String from, String message) {
 		if (publicMessages.get(from) == null)
 			publicMessages.put(from, new ArrayList<String>());
+		addNotification("You have a new public message!");
 		publicMessages.get(from).add(message);
 	}
 	/**
@@ -290,7 +297,7 @@ public class FacePamphletProfile {
 	 * @author Cameron Ross
 	 */
 	public Map<String,ArrayList<String>> getPublicMessages() {
-		return publicMessages;
+		return (Map<String, ArrayList<String>>) publicMessages.clone();
 	}
 
 	/**
@@ -300,7 +307,38 @@ public class FacePamphletProfile {
 	 * @author Cameron Ross
 	 */
 	public ArrayList<String> getPublicMessages(String from) {
-		return publicMessages.get(from);
+		return (ArrayList<String>) publicMessages.get(from).clone();
+	}
+	/** 
+	 * Get a list of unread notifications for this user.
+	 * @return List of unread notifications
+	 * @author Cameron Ross
+	 */
+	public ArrayList<String> getNotifications() {
+		return (ArrayList<String>) notifications.clone();
+	}
+	/**
+	 * Clears all notifications for this user.
+	 * @author Cameron Ross
+	 */
+	public void clearNotifications() {
+		notifications.clear();
+	}
+	/**
+	 * Clear a specific notification for this user.
+	 * @param id The ID of the notification to clear.
+	 * @author Cameron Ross
+	 */
+	public void clearNotification(int id) {
+		notifications.remove(id);
+	}
+	/**
+	 * Add a notification for this user.
+	 * @param message Message for the user to read
+	 * @author Cameron Ross
+	 */
+	private void addNotification(String message) {
+		notifications.add(message);
 	}
 	
 }
