@@ -309,6 +309,24 @@ public class FacePamphletProfile {
 	public ArrayList<String> getPublicMessages(String from) {
 		return (ArrayList<String>) publicMessages.get(from).clone();
 	}
+	/**
+	 * Get a list of private messages sent to this user.
+	 * @return A map of the private messages sent to this user.
+	 * @author Cameron Ross
+	 */
+	public Map<String,ArrayList<String>> getPrivateMessages() {
+		return (Map<String, ArrayList<String>>) privateMessages.clone();
+	}
+
+	/**
+	 * Get a list of private messages sent to this user from a particular user.
+	 * @param from The user to filter the list by.
+	 * @return A list of the messages sent to this user by a particular user.
+	 * @author Cameron Ross
+	 */
+	public ArrayList<String> getPrivateMessages(String from) {
+		return (ArrayList<String>) privateMessages.get(from).clone();
+	}
 	/** 
 	 * Get a list of unread notifications for this user.
 	 * @return List of unread notifications

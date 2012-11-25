@@ -4,3 +4,7 @@ DONE (by CF):
   - Biography
   - Birthdays
   - Sub-profiles
+  
+DONE (by Rocco):
+  - Notification system?
+  - Public/Private messaging
