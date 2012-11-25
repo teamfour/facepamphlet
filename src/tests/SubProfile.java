@@ -4,12 +4,15 @@ import facepamphlet.FacePamphletDatabase;
 import facepamphlet.FacePamphletProfile;
 import facepamphlet.FacePamphletSubProfile;
 
+import static org.junit.Assert.*;
+import org.junit.Test;
 /**
  * This tests the sub-profile functionality of a profile. This is very simple
  * since all we need to test is the association of the profiles.
  */
 public class SubProfile {
-	public static void main(String[] args) {		
+	@Test
+	public void SubProfileTest() {		
 		FacePamphletDatabase people = new FacePamphletDatabase();
 		
 		FacePamphletProfile me = new FacePamphletProfile("Me");

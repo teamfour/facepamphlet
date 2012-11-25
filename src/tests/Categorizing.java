@@ -4,12 +4,15 @@ import java.util.Iterator;
 
 import facepamphlet.FacePamphletProfile;
 
+import static org.junit.Assert.*;
+import org.junit.Test;
 /**
  * This tests the categorization of friends. Note that this is done on a name 
  * basis, so we don't need a profile of actual profiles, we assume they exist somewhere.
  */
 public class Categorizing {
-	public static void main(String[] args) {
+	@Test
+	public void CategorizingTest() {
 		FacePamphletProfile me = new FacePamphletProfile("Me");
 		
 		// we are just gonna name friends with numbers and categories with letters

@@ -7,11 +7,14 @@ import java.util.Random;
 import facepamphlet.FacePamphletDatabase;
 import facepamphlet.FacePamphletProfile;
 
+import static org.junit.Assert.*;
+import org.junit.Test;
 /**
  * This just ensures that we can set birthdays and get them.
  */
 public class Birthday {
-	public static void main(String[] args) {
+	@Test
+	public void birthdayTest() {
 		Random r = new Random();
 		Calendar c = Calendar.getInstance();		
 		

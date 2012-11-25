@@ -26,6 +26,10 @@ public class FacePamphletProfile {
 	
 	private ArrayList<String> subProfiles;
 	
+	private Map<String,ArrayList<String>> publicMessages;
+	
+	private Map<String,ArrayList<String>> privateMessages;
+	
 	/** 
 	 * Constructor
 	 * This method takes care of any initialization needed for
@@ -35,6 +39,9 @@ public class FacePamphletProfile {
 		 friendCategories = new HashMap<String, String>();
 		 friends = new ArrayList<String>();
 		 subProfiles = new ArrayList<String>();
+		 
+		 privateMessages = new HashMap<String,ArrayList<String>>();
+		 publicMessages = new HashMap<String,ArrayList<String>>();
 		 
 		 this.name = name;
 	}
@@ -254,6 +261,46 @@ public class FacePamphletProfile {
 		}
 		
 		return toString;
+	}
+	/**
+	 * Receive a private message from another user.
+	 * @param from The user sending the message.
+	 * @param message The message this user should receive
+	 * @Author Cameron Ross
+	 */
+	public void receivePrivateMessage(String from, String message) {
+		if (privateMessages.get(from) == null)
+			privateMessages.put(from, new ArrayList<String>());
+		privateMessages.get(from).add(message);
+	}
+	/**
+	 * Receive a public message from another user.
+	 * @param from The user sending the message.
+	 * @param message The message this user should receive
+	 * @author Cameron Ross
+	 */
+	public void receivePublicMessage(String from, String message) {
+		if (publicMessages.get(from) == null)
+			publicMessages.put(from, new ArrayList<String>());
+		publicMessages.get(from).add(message);
+	}
+	/**
+	 * Get a list of public messages sent to this user.
+	 * @return A map of the public messages sent to this user.
+	 * @author Cameron Ross
+	 */
+	public Map<String,ArrayList<String>> getPublicMessages() {
+		return publicMessages;
+	}
+
+	/**
+	 * Get a list of public messages sent to this user from a particular user.
+	 * @param from The user to filter the list by.
+	 * @return A list of the messages sent to this user by a particular user.
+	 * @author Cameron Ross
+	 */
+	public ArrayList<String> getPublicMessages(String from) {
+		return publicMessages.get(from);
 	}
 	
 }
