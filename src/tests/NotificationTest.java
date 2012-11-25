@@ -19,28 +19,31 @@ public class NotificationTest {
 	 */
 	@Test
 	public void test() {
-		assertNull(testProfile.getNotifications());
+		assertTrue(testProfile.getNotifications().isEmpty());
 		
 		//Receiving messages should generate notifications.
 		testProfile.receivePrivateMessage("ALERT", "SIRENS");
-		assertNotNull(testProfile.getNotifications());
+		assertFalse(testProfile.getNotifications().isEmpty());
+		
+		testProfile.getNotifications().clear();
+		assertFalse(testProfile.getNotifications().isEmpty()); // We should not be able to clear the notifications this way
 		
 		try {
 			testProfile.clearNotifications();
 		} catch (Exception e) {
 			fail("Could not clear notifications: " + e.getMessage());
 		}
-		assertNull(testProfile.getNotifications());
+		assertTrue(testProfile.getNotifications().isEmpty());
 		
 		testProfile.receivePublicMessage("Fred", "Wow, Cool!!!");
-		assertNotNull(testProfile.getNotifications());
+		assertFalse(testProfile.getNotifications().isEmpty());
 		
 		try {
 			testProfile.clearNotification(0);
 		} catch (Exception e) {
 			fail("Could not clear notification 0: " + e.getMessage());
 		}
-		assertNull(testProfile.getNotifications());
+		assertTrue(testProfile.getNotifications().isEmpty());
 		try {
 			if (testProfile.getNotifications().size() == 0) {
 				testProfile.clearNotification(0);
