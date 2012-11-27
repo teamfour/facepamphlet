@@ -7,6 +7,7 @@ package facepamphlet;
  * indicate a sub-profile. I opted for this since it means that a 
  * profile can have sub-profiles, but that's it (sub-profiles can't 
  * have sub-profiles; it just isn't necessary).
+ * @author Christian Fiddick
  */
 public class FacePamphletSubProfile extends FacePamphletProfile {
 	/** The name of the parent profile */

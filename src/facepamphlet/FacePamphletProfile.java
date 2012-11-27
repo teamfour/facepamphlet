@@ -21,7 +21,7 @@ public class FacePamphletProfile {
 	
 	private final String name; // Can't change (for consistency)
 	
-	private HashMap<String, String> friendCategories;
+	private HashMap<String, ArrayList<String>> friendCategories;
 	private ArrayList<String> friends;
 	
 	private ArrayList<String> subProfiles;
@@ -40,7 +40,7 @@ public class FacePamphletProfile {
 	 * @author Christian Fiddick, Cameron Ross
 	 */
 	public FacePamphletProfile(String name) {
-		 friendCategories = new HashMap<String, String>();
+		 friendCategories = new HashMap<String, ArrayList<String>>();
 		 friends = new ArrayList<String>();
 		 subProfiles = new ArrayList<String>();
 		 
@@ -51,17 +51,26 @@ public class FacePamphletProfile {
 		 this.name = name;
 	}
 
-	/** This method returns the name associated with the profile. */ 
+	/** 
+	 * This method returns the name associated with the profile. 
+	 * @author Christian Fiddick
+	 */ 
 	public String getName() {
 		return name;
 	}
 	
-	/** Return all categories this user is using */
-	public Iterator<String> getCategories() {
+	/** 
+	 * Return all categories this user is using.
+	 * @author Christian Fiddick
+	 */
+	public Iterator<String> getAllCategories() {
 		HashSet<String> categories = new HashSet<String>(); 
 		for(String key:friendCategories.keySet()) {
 			if(!categories.contains(friendCategories.get(key))) {
-				categories.add(friendCategories.get(key));
+				ArrayList<String> cats = friendCategories.get(key);
+				for(String c:cats) {
+					categories.add(c);
+				}
 			}
 		}
 		return categories.iterator();
@@ -69,26 +78,56 @@ public class FacePamphletProfile {
 	
 	/**
 	 * Assign a friend to a category, return true if friend exists 
-	 * (and changes were made).
+	 * (and changes were made). Return false if friend was already in 
+	 * the category! If null is passed as the category, friend is 
+	 * removed from all categories.
+	 * @author Christian Fiddick
 	 */
 	public boolean setCategory(String friend, String category) {
 		if(friends.contains(friend)) {
-			friendCategories.put(friend, category);
-			return true;
+			// null removes user from all categories
+			if(category == null) {
+				friendCategories.remove(friend);
+				return true;
+			}
+			
+			if(friendCategories.get(friend) != null) {
+				if(!friendCategories.get(friend).contains(category)) {
+					friendCategories.get(friend).add(category);
+					return true;
+				}
+			}
+			else {
+				ArrayList<String> cats = new ArrayList<String>();
+				cats.add(category);
+				friendCategories.put(friend, cats);
+			}
 		}
 		return false;
 	}
 
-	/** Get a friend's category */
-	public String getCategory(String friend) {
-		return friendCategories.get(friend);
+	/** 
+	 * Get a friend's categories. 
+	 * @author Christian Fiddick
+	 */
+	public Iterator<String> getCategories(String friend) {
+		ArrayList<String> cats = friendCategories.get(friend);
+		if(cats == null) {
+			return null;
+		}
+		else {
+			return cats.iterator();
+		}
 	}
 	
-	/** Get all the friends of a particular category */
+	/** 
+	 * Get all the friends of a particular category.
+	 * @author Christian Fiddick 
+	 */
 	public Iterator<String> getFriends(String category) {
 		Collection<String> categoryFriends = new ArrayList<String>();
 		for(String friend:friendCategories.keySet()) {
-			if(friendCategories.get(friend).equals(category)) {
+			if(friendCategories.get(friend) != null && friendCategories.get(friend).contains(category)) {
 				categoryFriends.add(friend);
 			}
 		}
@@ -99,12 +138,16 @@ public class FacePamphletProfile {
 	 * This method returns the image associated with the profile.  
 	 * If there is no image associated with the profile, the method
 	 * returns null. 
+	 * @author Christian Fiddick
 	 */ 
 	public GImage getImage() {
 		return image;
 	}
 
-	/** This method sets the image associated with the profile. */ 
+	/** 
+	 * This method sets the image associated with the profile. 
+	 * @author Christian Fiddick
+	 */ 
 	public void setImage(GImage image) {
 		this.image = image;
 	}
@@ -113,12 +156,16 @@ public class FacePamphletProfile {
 	 * This method returns the status associated with the profile.
 	 * If there is no status associated with the profile, the method
 	 * returns the empty string ("").
+	 * @author Christian Fiddick
 	 */ 
 	public String getStatus() {
 		return status == null ? "" : status;
 	}
 	
-	/** This method sets the status associated with the profile. */ 
+	/** 
+	 * This method sets the status associated with the profile. 
+	 * @author Christian Fiddick
+	 */ 
 	public void setStatus(String status) {
 		this.status = status;
 	}
@@ -127,12 +174,16 @@ public class FacePamphletProfile {
 	 * This method returns the bio associated with the profile.
 	 * If there is no bio associated with the profile, the method
 	 * returns the empty string ("").
+	 * @author Christian Fiddick
 	 */ 
 	public String getBio() {
 		return bio == null ? "" : bio;
 	}
 
-	/** This method sets the bio associated with the profile. */ 
+	/** 
+	 * This method sets the bio associated with the profile. 
+	 * @author Christian Fiddick
+	 */ 
 	public void setBio(String bio) {
 		this.bio = bio;
 	}
@@ -141,12 +192,16 @@ public class FacePamphletProfile {
 	 * This method returns the bio associated with the profile.
 	 * If there is no bio associated with the profile, the method
 	 * returns null.
+	 * @author Christian Fiddick
 	 */
 	public Date getBirthday() {
 		return birthday;
 	}
 
-	/** This method sets the birthday associated with the profile. */ 
+	/** 
+	 * This method sets the birthday associated with the profile.
+	 * @author Christian Fiddick
+	 */ 
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
@@ -159,6 +214,7 @@ public class FacePamphletProfile {
 	 * was already in the list of friends for this profile (in which 
 	 * case, the given friend name is not added to the list of friends 
 	 * a second time.)
+	 * @author Christian Fiddick
 	 */
 	public boolean addFriend(String friend) {
 		if(!friends.contains(friend)) {
@@ -175,6 +231,7 @@ public class FacePamphletProfile {
 	 * the list).  The method returns false if the given friend name 
 	 * was not in the list of friends for this profile (in which case,
 	 * the given friend name could not be removed.)
+	 * @author Christian Fiddick
 	 */
 	public boolean removeFriend(String friend) {
 		if(friends.remove(friend) != false) {
@@ -187,6 +244,7 @@ public class FacePamphletProfile {
 	/** 
 	 * This method returns an iterator over the list of friends 
 	 * associated with the profile.
+	 * @author Christian Fiddick
 	 */ 
 	public Iterator<String> getFriends() {
 		return friends.iterator();
@@ -199,6 +257,7 @@ public class FacePamphletProfile {
 	 * to the list).  The method returns false if the given name
 	 * was already in the list of sub-profiles for this profile (in which 
 	 * case, the given name is not added to the list a second time.)
+	 * @author Christian Fiddick
 	 */
 	public boolean addSubProfile(String subProfileName) {
 		if(!subProfiles.contains(subProfileName)) {
@@ -215,6 +274,7 @@ public class FacePamphletProfile {
 	 * the list).  The method returns false if the given name 
 	 * was not in the list of sub-profiles for this profile (in which case,
 	 * the given name could not be removed.)
+	 * @author Christian Fiddick
 	 */
 	public boolean removeSubProfile(String subProfileName) {
 		if(subProfiles.remove(subProfileName) != false) {
@@ -227,6 +287,7 @@ public class FacePamphletProfile {
 	/** 
 	 * This method returns an iterator over the list of sub-profiles 
 	 * associated with the profile.
+	 * @author Christian Fiddick
 	 */ 
 	public Iterator<String> getSubProfiles() {
 		return subProfiles.iterator();
@@ -242,6 +303,7 @@ public class FacePamphletProfile {
 	 * For example, in a profile with name "Alice" whose status is 
 	 * "coding" and who has friends Don, Chelsea, and Bob, this method 
 	 * would return the string: "Alice (coding): Don, Chelsea, Bob"
+	 * @author Christian Fiddick
 	 */ 
 	public String toString() {
 		String toString = name;
@@ -267,6 +329,7 @@ public class FacePamphletProfile {
 		
 		return toString;
 	}
+	
 	/**
 	 * Receive a private message from another user.
 	 * @param from The user sending the message.
@@ -296,6 +359,7 @@ public class FacePamphletProfile {
 	 * @return A map of the public messages sent to this user.
 	 * @author Cameron Ross
 	 */
+	@SuppressWarnings("unchecked")
 	public Map<String,ArrayList<String>> getPublicMessages() {
 		return (Map<String, ArrayList<String>>) publicMessages.clone();
 	}
@@ -306,6 +370,7 @@ public class FacePamphletProfile {
 	 * @return A list of the messages sent to this user by a particular user.
 	 * @author Cameron Ross
 	 */
+	@SuppressWarnings("unchecked")
 	public ArrayList<String> getPublicMessages(String from) {
 		return (ArrayList<String>) publicMessages.get(from).clone();
 	}
@@ -314,6 +379,7 @@ public class FacePamphletProfile {
 	 * @return A map of the private messages sent to this user.
 	 * @author Cameron Ross
 	 */
+	@SuppressWarnings("unchecked")
 	public Map<String,ArrayList<String>> getPrivateMessages() {
 		return (Map<String, ArrayList<String>>) privateMessages.clone();
 	}
@@ -324,6 +390,7 @@ public class FacePamphletProfile {
 	 * @return A list of the messages sent to this user by a particular user.
 	 * @author Cameron Ross
 	 */
+	@SuppressWarnings("unchecked")
 	public ArrayList<String> getPrivateMessages(String from) {
 		return (ArrayList<String>) privateMessages.get(from).clone();
 	}
@@ -332,6 +399,7 @@ public class FacePamphletProfile {
 	 * @return List of unread notifications
 	 * @author Cameron Ross
 	 */
+	@SuppressWarnings("unchecked")
 	public ArrayList<String> getNotifications() {
 		return (ArrayList<String>) notifications.clone();
 	}
@@ -355,7 +423,7 @@ public class FacePamphletProfile {
 	 * @param message Message for the user to read
 	 * @author Cameron Ross
 	 */
-	private void addNotification(String message) {
+	public void addNotification(String message) {
 		notifications.add(message);
 	}
 	

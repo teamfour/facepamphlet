@@ -4,7 +4,8 @@ DONE (by CF):
   - Biography
   - Birthdays
   - Sub-profiles
-  
+  - Persistence module
+
 DONE (by Rocco):
   - Notification system?
   - Public/Private messaging

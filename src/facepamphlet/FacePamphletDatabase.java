@@ -17,18 +17,18 @@ public class FacePamphletDatabase {
 	 * Constructor
 	 * This method takes care of any initialization needed for 
 	 * the database.
+	 * @author Christian Fiddick
 	 */
 	public FacePamphletDatabase() {
 		profiles = new ArrayList<FacePamphletProfile>();
-		// TODO probably want parse profiles from file now
 	}
-	
-	
+		
 	/** 
 	 * This method adds the given profile to the database.  If the 
 	 * name associated with the profile is the same as an existing 
 	 * name in the database, the existing profile is replaced by 
 	 * the new profile passed in.
+	 * @author Christian Fiddick
 	 */
 	public void addProfile(FacePamphletProfile profile) {
 		for(int i = 0; i < profiles.size(); i++) {
@@ -47,6 +47,7 @@ public class FacePamphletDatabase {
 	 * This method returns the profile associated with the given name 
 	 * in the database.  If there is no profile in the database with 
 	 * the given name, the method returns null.
+	 * @author Christian Fiddick
 	 */
 	public FacePamphletProfile getProfile(String name) {
 		for(int i = 0; i < profiles.size(); i++) {
@@ -67,6 +68,7 @@ public class FacePamphletDatabase {
 	 * 
 	 * If there is no profile in the database with the given name, then
 	 * the database is unchanged after calling this method.
+	 * @author Christian Fiddick
 	 */
 	public void deleteProfile(String name) {
 		if(containsProfile(name)) {
@@ -88,6 +90,7 @@ public class FacePamphletDatabase {
 	/** 
 	 * This method returns true if there is a profile in the database 
 	 * that has the given name.  It returns false otherwise.
+	 * @author Christian Fiddick
 	 */
 	public boolean containsProfile(String name) {
 		for(int i = 0; i < profiles.size(); i++) {
@@ -99,4 +102,7 @@ public class FacePamphletDatabase {
 		return false;
 	}
 
+	public Iterator<FacePamphletProfile> getFacePamphletProfiles() {
+		return profiles.iterator();
+	}
 }
